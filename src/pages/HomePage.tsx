@@ -39,7 +39,6 @@ export default function HomePage(){
     navigate("/linkpassword");
   };
   
-  //homework 1
   const onAddFacebookSignInClicked = () => {
     linkWithFacebook();
   };
@@ -52,6 +51,7 @@ export default function HomePage(){
           <div>
             <b>Your email is:</b> {user?.email}
           </div>
+
           <div>
             Add additional login methods:
             {!userHasGoogle && (
@@ -73,8 +73,6 @@ export default function HomePage(){
                 </Button>
               </div>
             )}
-
-
             
             {!userHasFacebook && (
               <div>

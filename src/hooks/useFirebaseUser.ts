@@ -12,9 +12,10 @@ import {
   linkWithPopup,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { firebaseAuth } from "../firebase/FirebaseConfig";
+import { firebaseAuth, firebaseDb } from "../firebase/FirebaseConfig";
 import { useNavigate } from "react-router";
 import { EmailAuthProvider } from "firebase/auth/web-extension";
+import { doc, setDoc } from "firebase/firestore";
 
 export const useFirebaseUser = () => {
   const navigate = useNavigate();
@@ -45,34 +46,36 @@ export const useFirebaseUser = () => {
         console.error("Error signing in:", errorCode, errorMessage);
       });
   };
-  
-  const registerWithFirebase = (
+
+  const registerWithFirebase = async (
     email: string,
     password: string,
-    fullName: string
+    fullName: string,
+    cellphone: number,
+    birthDate: string,
   ) => {
-    createUserWithEmailAndPassword(firebaseAuth, email, password)
-      .then((userCredential) => {
-        // Registered and Signed in
-        const user = userCredential.user;
 
-        console.log("User signed in:", user);
-        updateProfile(user, {
-          displayName: fullName,
-        })
-          .then(() => {
-            console.log("Profile updated successfully");
-            navigate("/login");
-          })
-          .catch((error) => {
-            console.error("Error updating profile:", error);
-          });
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error("Error signing in:", errorCode, errorMessage);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password)
+      const newUSer = userCredential.user;
+
+      await setDoc(doc(firebaseDb, "Users", newUSer.uid), {
+        fullName,
+        email,
+        cellphone,
+        birthDate,
       });
+
+      
+      updateProfile(newUSer, {
+        displayName: fullName,
+      })
+
+      navigate("/home");
+
+    } catch (e) {
+      console.error("Error registering user", e)
+    }
   };
 
   const loginWithGoogle = () => {

@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import * as firebaseui from 'firebaseui'
-
+import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,4 +25,4 @@ export const analytics = getAnalytics(firebaseApp);
 export const firebaseAuth = getAuth(firebaseApp);
 export const firebaseUi = new firebaseui.auth.AuthUI(firebaseAuth);
 firebaseAuth.useDeviceLanguage();
-
+export const firebaseDb = getFirestore(firebaseApp);
