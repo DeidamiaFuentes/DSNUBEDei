@@ -130,7 +130,7 @@ export const useFirebaseUser = () => {
       .then(() => {
         console.log("User signed out successfully");
         setUser(null);
-        navigate("/login");
+        navigate("/");
       })
       .catch((error) => {
         console.error("Error signing out:", error);

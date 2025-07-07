@@ -3,10 +3,11 @@ import Button from "../components/Button";
 import Card from "../components/Card";
 import { useFirebaseUser } from "../hooks/useFirebaseUser";
 import { useEffect, useState } from "react";
+import Menu from "../components/Menu";
 
 export default function HomePage(){
-   const navigate = useNavigate();
-  const { user, logout } = useFirebaseUser();
+  const navigate = useNavigate();
+  const { user } = useFirebaseUser();
   const [userHasGoogle, setUserHasGoogle] = useState(false);
   const [userHasPassword, setUserHasPassword] = useState(false);
   const [userHasFacebook, setUserHasFacebook] = useState(false);
@@ -45,6 +46,7 @@ export default function HomePage(){
   
   return (
     <>
+    <Menu />
       <Card>
         <div>
           <h1>Welcome to the dashboard {user?.displayName}!</h1>
@@ -87,18 +89,6 @@ export default function HomePage(){
             )}
 
           </div>
-        </div>
-
-        <div>
-          <Button
-            variant="primary"
-            className="mt-3"
-            onClick={() => {
-              logout();
-            }}
-          >
-            Logout
-          </Button>
         </div>
       </Card>
     </>
