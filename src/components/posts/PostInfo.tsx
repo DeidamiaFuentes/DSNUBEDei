@@ -17,6 +17,14 @@ export const PostInfo = ({ post, onDeleteCallback }: Props) => {
   return (
     <div className="my-3 border p-3 rounded">
       <h3>{post.title}</h3>
+      {post.imageUrl && (
+        <img
+          src={post.imageUrl}
+          alt="Post"
+          className="w-full h-auto mb-3 rounded-lg border"
+          style={{ objectFit: "contain" }}
+        />
+      )}
       <p>{post.content}</p>
       <Button onClick={onDeleteClick} variant="danger">
         <Trash size={12} /> Delete

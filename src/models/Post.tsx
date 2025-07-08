@@ -5,6 +5,7 @@ export class Post {
   title: string = "";
   content: string = "";
   ownerId: string = "";
+  imageUrl?: string = "";
   createdAt: Date = new Date();
 
   static fromFirestore(id: string, data: DocumentData): Post {
@@ -13,6 +14,7 @@ export class Post {
       title: data.title || "",
       content: data.content || "",
       ownerId: data.ownerId || "",
+      imageUrl: data.imageUrl || "",
       createdAt: data.createdAt?.toDate?.() || new Date(),
     };
   }
