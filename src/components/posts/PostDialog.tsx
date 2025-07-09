@@ -43,6 +43,8 @@ export const PostDialog = () => {
       ownerId: user.uid,
       createdAt: new Date(),
       imageUrl: imageUrl,
+      likeCount: 0,
+      dislikeCount: 0
     };
 
     await new PostRepository().addPost(newPost);

@@ -16,7 +16,6 @@ export const useFirebaseNotifications = () => {
         const currentToken = await getToken(firebaseMessaging, {
           vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
         });
-        console.log("Firebase token obtained:", currentToken);
 
         if (currentToken) {
           console.log("Firebase token obtained:", currentToken);
@@ -44,15 +43,21 @@ export const useFirebaseNotifications = () => {
     }
     console.log("Firebase token updated:", token);
     const handleTokenUpdate = async () => {
-      const repository = new UserRepository();
-      await repository.createOrUpdateNotificationToken(
-        user!.uid,
-        token!
-      );
-      await subscribeToTopic(token!, "all");
+      try {
+        const repository = new UserRepository();
+        await repository.createOrUpdateNotificationToken(
+          user.uid,
+          token
+        );
+        await subscribeToTopic(token, "all");
+      }catch (e) {
+        console.error("Error actualizando token en Firestore:", e);
+      }
+
     };
     handleTokenUpdate();
     console.log("sss")
   }, [token, user]);
+  
   return { token, loadingToken };
 };
