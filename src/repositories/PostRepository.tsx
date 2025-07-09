@@ -3,9 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
-  query,
-  where,
+  getDocs
 } from "firebase/firestore";
 import { firebaseDb } from "../firebase/FirebaseConfig";
 import { Post } from "../models/Post";
@@ -32,10 +30,9 @@ export class PostRepository {
     return deleteDoc(doc(firebaseDb, this.collectionName, id));
   }
 
-  getPostsByOwnerId(ownerId: string): Promise<Post[]> {
+  getAllPosts(): Promise<Post[]> {
     return new Promise((resolve, reject) => {
-      const q = query(this.getCollectionRef(), where("ownerId", "==", ownerId));
-      getDocs(q)
+      getDocs(this.getCollectionRef())
         .then((snapshot) => {
           const posts: Post[] = [];
           snapshot.forEach((doc) => posts.push(Post.fromFirestore(doc.id, doc.data())));

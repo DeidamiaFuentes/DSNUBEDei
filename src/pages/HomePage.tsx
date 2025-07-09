@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import { useFirebaseUser } from "../hooks/useFirebaseUser";
 import { useEffect, useState } from "react";
 import Menu from "../components/Menu";
+import { useFirebaseNotifications } from "../hooks/useFirebaseNotifications";
 
 export default function HomePage(){
   const navigate = useNavigate();
@@ -12,7 +13,12 @@ export default function HomePage(){
   const [userHasPassword, setUserHasPassword] = useState(false);
   const [userHasFacebook, setUserHasFacebook] = useState(false);
   const { linkWithFacebook } = useFirebaseUser();
+  const { token } = useFirebaseNotifications()
   
+  useEffect(() => {
+    console.log(token)
+  }, [token])
+
   useEffect(() => {
     if (!user) {
       return;
